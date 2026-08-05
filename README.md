@@ -62,7 +62,7 @@ organfy-api
 ### 1. Clone o projeto
 
 ```bash
-git clone https://github.com/seu-usuario/organfy-api.git
+git clone https://github.com/seu-usuario/organfy.git
 ```
 
 ---
@@ -70,7 +70,7 @@ git clone https://github.com/seu-usuario/organfy-api.git
 ### 2. Entre na pasta
 
 ```bash
-cd organfy-api
+cd organfy
 ```
 
 ---
