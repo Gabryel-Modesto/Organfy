@@ -1,3 +1,5 @@
+import User from "../database/models/user.js";
+
 async function create(userData) {
     return await User.create(userData);
 }
