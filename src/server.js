@@ -13,22 +13,16 @@ async function startServer() {
         await sequelize.authenticate();
 
         console.log("Banco conectado com sucesso!")
-
-
         app.listen(PORT, () => {
             console.log(`Servidor rodando em: http://localhost:${PORT}`)
         });
 
-        console.log(users);
-
-
-
     } catch(error){
         console.error("Erro ao conectar com o banco!");
         console.error(error);
-    }
+    };
     
-}
+};
 
 startServer();
 

@@ -1,59 +1,36 @@
-import User from "../database/models/user.js";
-import bcrypt from "bcryptjs";
+import userRepository from "../repositories/userRepository.js";
+import { validateEmail, validatePassword, validateName } from "../utils/validation.js";
+import { hashPassword } from "../utils/password.js";
+import { removePassword } from "../utils/sanitize.js";
 
 async function createUser(userData) {
+    const { name_user, email_user, password_user } = userData;
+
     validateUser(userData);
-    await checkEmailExists(userData.email_user);
-    
-    // Criptografar a senha
-    userData.password_user = await hashPassword(userData.password_user);
+    await checkEmailExists(email_user);
 
-    // Criar o usuário no banco de dados
-    const user = await User.create(userData);
+    // Criptografar a senha do usuário antes de salvar no banco de dados
+    userData.password_user = await hashPassword(password_user);
+
+    const user = await userRepository.create(userData);
+
     return removePassword(user);
-};
-
-function validateUser(userData) {
-    validateName(userData.name_user);
-    validateEmail(userData.email_user);
-    validatePassword(userData.password_user);
-};
-
-function validateEmail(email){
-    if(!email || email.trim() === ""){
-        throw new Error("Email é obrigatório");
-    }
-};
-
-function validatePasswor(password){
-    if(!password || password.trim() === ""){
-        throw new Error("Senha é obrigatória");
-    };
 }
 
-function validateName(name){
-    if(!name || name.trim() === ""){
-        throw new Error("Nome é obrigatório");
-    };
-};
+function validateUser(userData) {
+    const { name_user, email_user, password_user } = userData;
+
+    validateName(name_user);
+    validateEmail(email_user);
+    validatePassword(password_user);
+}
 
 async function checkEmailExists(email) {
-    const existingUser = await User.findOne({ where: { email_user: email } });
+    const existingUser = await userRepository.findByEmail(email);
+
     if (existingUser) {
         throw new Error("Email já cadastrado");
-    };
-};
+    }
+}
 
-//criptografar a senha do usuário
-async function hashPassword(password) {
-    return await bcrypt.hash(password, 10);
-};
-
-//função para remover a senha do usuário antes de retornar a resposta
-function removePassword(user){
-    const userResponse = user.toJSON();
-    delete userResponse.password_user;
-    return userResponse;
-};
-
-export default {createUser};
+export default { createUser };
