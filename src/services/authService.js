@@ -2,6 +2,7 @@ import userRepository from "../repositories/userRepository.js";
 import { validateEmail, validatePassword } from "../utils/validation.js";
 import { comparePassword } from "../utils/password.js";
 import { removePassword } from "../utils/sanitize.js";
+import { generateToken } from "../utils/jwt.js";
 
 async function login(loginData) {
     validateLogin(loginData);
@@ -23,7 +24,13 @@ async function login(loginData) {
         throw new Error("Email ou senha inválidos");
     }
 
-    return removePassword(user);
+    const token = generateToken(user);
+
+    // Retorna o token JWT junto com os dados do usuário
+    return {
+         user: removePassword(user),
+         token
+    };
 }
 
 function validateLogin(loginData) {
