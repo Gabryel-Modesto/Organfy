@@ -12,4 +12,12 @@ async function findByEmail(email) {
     });
 }
 
-export default { create, findByEmail };
+async function findById(id) {
+    return await User.findByPk(id);
+}
+
+export default {
+    create,
+    findByEmail,
+    findById
+};
