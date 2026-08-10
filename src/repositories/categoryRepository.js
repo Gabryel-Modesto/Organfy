@@ -72,6 +72,16 @@ async function findInactiveByUser(userId){
     });
 };
 
+async function findByName(nameCategory, userId) {
+    return await category.findOne({
+        where: {
+            name_category: nameCategory,
+            id_user: userId,
+            active_category: true
+        }
+    });
+};
+
 export default {
     create, 
     findById,
@@ -79,5 +89,6 @@ export default {
     remove,
     activate,
     findAllByUser,
-    findInactiveByUser
+    findInactiveByUser,
+    findByName
 };
