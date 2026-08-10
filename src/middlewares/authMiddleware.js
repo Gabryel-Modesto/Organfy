@@ -10,7 +10,7 @@ export default async function authMiddleware(req, res, next) {
         return res.status(401).json({
             message: "Token não fornecido"
         });
-    }
+    };
 
     const [, token] = authHeader.split(" ");
 
@@ -25,7 +25,7 @@ export default async function authMiddleware(req, res, next) {
             return res.status(401).json({
                 message: "Usuário não encontrado"
             });
-        }
+        };
 
         // Disponibiliza o usuário para as próximas camadas
         req.user = removePassword(user);
@@ -35,5 +35,5 @@ export default async function authMiddleware(req, res, next) {
         return res.status(401).json({
             message: "Token inválido"
         });
-    }
+    };
 };

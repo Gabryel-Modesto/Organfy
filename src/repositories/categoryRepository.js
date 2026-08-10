@@ -4,69 +4,80 @@ async function create(categoryData) {
     return await category.create(categoryData);
 };
 
-
-//Busca somente as categorias ativas daquele usuário
-async function findByUser(userId) {
-    return await category.findAll({
-        where: {
-            id_user: userId,
-        }
-    });
-}
-
 async function findAllByUser(userId) {
     return await category.findAll({
         where: {
+            id_user: userId,
+            active_category: true
+        }
+    });
+};
+
+async function findById(idCategory, userId) {
+    return await category.findOne({
+        where: {    
+            id_category: idCategory,
             id_user: userId
         }
     });
-}
-
-async function findById(id) {
-    return await category.findByPk(id);
-}
-
-async function update(id, categoryData) {
-    return await category.update(categoryData, {
-        where: {
-            id_category: id
-        }
-    }
-)};
-
-async function activade(id) {
-    return await category.update(
-        {
-            active_category: true
-        },
-        {
-            where: {
-                id_category: id
-            }
-        }
-    )
 };
 
+async function update(idCategory, userId, categoryData) {
+    return await category.update(categoryData, {
+        where: {
+            id_category: idCategory,
+            id_user: userId,
+            active_category: true
+        }
+    });
+};
 
-async function remove(id) {
+async function activate(idCategory, userId) {
     return await category.update(
         {
-            active_category: false
+            active_category: true,
+            deleted_at_category: null
         },
         {
             where: {
-                id_category: id
+                id_category: idCategory,
+                id_user: userId
             }
         }
     );
-}
+};
+
+async function remove(idCategory, userId) {
+    return await category.update(
+        {
+            active_category: false,
+            deleted_at_category: new Date()
+        },
+        {
+            where: {
+                id_category: idCategory,
+                id_user: userId,
+                active_category: true
+            }
+        }
+    );
+};
+
+async function findInactiveByUser(userId){
+    return await category.findAll({
+        where: {
+            id_user: userId,
+            active_category: false
+        }
+    });
+};
 
 export default {
     create, 
-    findByUser,
     findById,
     update,
     remove,
-    activade,
-    findAllByUser
+    activate,
+    findAllByUser,
+    findInactiveByUser
 };
