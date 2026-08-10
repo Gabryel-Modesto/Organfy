@@ -76,8 +76,7 @@ async function findByName(nameCategory, userId) {
     return await category.findOne({
         where: {
             name_category: nameCategory,
-            id_user: userId,
-            active_category: true
+            id_user: userId
         }
     });
 };
