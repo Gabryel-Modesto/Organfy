@@ -102,5 +102,9 @@ ADD COLUMN type_category VARCHAR(20) NOT NULL DEFAULT 'EXPENSE';
 ALTER TABLE categories
 ADD COLUMN active_category BOOLEAN NOT NULL DEFAULT TRUE;
 
-SELECT * FROM categories;
+ALTER TABLE payment_methods
+ADD COLUMN active_payment_methods BOOLEAN NOT NULL DEFAULT TRUE;
 
+
+SELECT * FROM categories;
+SELECT * FROM payment_methods;

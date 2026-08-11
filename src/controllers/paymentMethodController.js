@@ -2,7 +2,7 @@ import paymentMethodService from "../services/paymentMethodService.js";
 
 class PaymentMethodController {
 
-    async create(req, res){
+    async create(req, res) {
         try {
             const paymentMethod = await paymentMethodService.create(
                 req.body,
@@ -10,45 +10,47 @@ class PaymentMethodController {
             );
 
             return res.status(201).json(paymentMethod);
+
         } catch (error) {
             return res.status(400).json({
                 message: error.message
             });
-        };
-    };
+        }
+    }
 
     async findAll(req, res) {
         try {
             const paymentMethods = await paymentMethodService.findAllByUser(
-                req.user.id_user
-            );
+                    req.user.id_user
+                );
 
-            return res.status(201).json(paymentMethods);
+            return res.status(200).json(paymentMethods);
 
-        } catch(error){
+        } catch (error) {
             return res.status(400).json({
                 message: error.message
             });
-        };
-    };
+        }
+    }
 
     async findInactiveByUser(req, res) {
         try {
             const paymentMethods = await paymentMethodService.findInactiveByUser(
-                req.user.id_user
-            );
-            res.status(200).json(paymentMethods);
-        } catch (error){
+                    req.user.id_user
+                );
+
+            return res.status(200).json(paymentMethods);
+
+        } catch (error) {
             return res.status(400).json({
                 message: error.message
             });
-        };
-    };
+        }
+    }
 
     async findById(req, res) {
         try {
-            const paymentMethod =
-                await paymentMethodService.findById(
+            const paymentMethod = await paymentMethodService.findById(
                     req.params.id,
                     req.user.id_user
                 );
@@ -57,7 +59,7 @@ class PaymentMethodController {
                 return res.status(404).json({
                     message: "Forma de pagamento não encontrada!"
                 });
-            };
+            }
 
             return res.status(200).json(paymentMethod);
 
@@ -84,8 +86,7 @@ class PaymentMethodController {
                 });
             }
 
-            const result =
-                await paymentMethodService.update(
+            const result = await paymentMethodService.update(
                     req.params.id,
                     req.user.id_user,
                     req.body
@@ -135,7 +136,8 @@ class PaymentMethodController {
 
     async activate(req, res) {
         try {
-            const result = await paymentMethodService.activate(
+            const result =
+                await paymentMethodService.activate(
                     req.params.id,
                     req.user.id_user
                 );
@@ -154,8 +156,8 @@ class PaymentMethodController {
             return res.status(400).json({
                 message: error.message
             });
-        };
-    };
+        }
+    }
 }
 
 export default new PaymentMethodController();
