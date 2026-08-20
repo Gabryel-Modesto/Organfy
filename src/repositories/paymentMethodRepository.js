@@ -20,7 +20,9 @@ async function findById(idPaymentMethod, userId) {
     return await paymentMethod.findOne({
         where: {
             id_payment_method: idPaymentMethod,
-            id_user: userId
+            id_user: userId,
+            active_payment_methods: true,
+            deleted_at_payment_methods: null
         }
     });
 }

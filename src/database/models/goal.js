@@ -16,7 +16,7 @@ const goal = sequelize.define(
         },
 
         name_goal: {
-            type: DataTyes.STRING,
+            type: DataTypes.STRING,
             allowNull:false
         },
 

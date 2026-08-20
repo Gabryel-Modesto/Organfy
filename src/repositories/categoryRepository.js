@@ -15,9 +15,11 @@ async function findAllByUser(userId) {
 
 async function findById(idCategory, userId) {
     return await category.findOne({
-        where: {    
+        where: {
             id_category: idCategory,
-            id_user: userId
+            id_user: userId,
+            active_category: true,
+            deleted_at_category: null
         }
     });
 };
